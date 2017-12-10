@@ -34,7 +34,8 @@ public class GetTimeKey extends HttpServlet
             throws ServletException, IOException
     {
         PrintWriter out = response.getWriter();
-        out.write(readFile("C:\\Users\\th\\Documents\\Code\\School\\WebApplication1\\web\\Keys\\timestamp.pub"));
+        //C:\\Users\\th\\Documents\\Code\\School\\WebApplication1\\web\\Keys
+        out.write(readFile("D:\\Moe\\Studies\\Workspace\\Github\\YASMS\\secure-messaging-app\\WebApplication1\\web\\Keys\\timestamp.pub"));
         
     }
 

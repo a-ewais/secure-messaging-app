@@ -4,9 +4,17 @@
         <servlet-name>gettimekey</servlet-name>
         <servlet-class>GetTimeKey</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>handshake</servlet-name>
+        <servlet-class>handshake</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>gettimekey</servlet-name>
         <url-pattern>/gettimekey</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>handshake</servlet-name>
+        <url-pattern>/handshake</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

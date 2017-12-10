@@ -16,6 +16,7 @@ import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Security;
 import java.security.interfaces.RSAPrivateKey;
@@ -38,7 +39,8 @@ public class EncryptionAssistant
     private static final String TIME_STAMP_KEY_NAME = "TimeKey";
     private static final String MY_PRIVATE_KEY_NAME = "MyPrivateKey";
     private static final String MY_PUBLIC_KEY_NAME = "MyPublicKey";
-    private static final String KEYSTORE_ADDRESS = "C:\\Users\\th\\Documents\\Code\\School\\WebApplication1\\web\\Keys\\";
+    //C:\\Users\\th\\Documents\\Code\\School\\WebApplication1\\web\\Keys
+    private static final String KEYSTORE_ADDRESS = "D:\\Moe\\Studies\\Workspace\\Github\\YASMS\\secure-messaging-app\\WebApplication1\\web\\Keys\\";
 
     public EncryptionAssistant()
     {
@@ -131,5 +133,28 @@ public class EncryptionAssistant
         final SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("DES");
         final DESKeySpec desSpec = new DESKeySpec(longKey);
         return keyFactory.generateSecret(desSpec).getEncoded();
+    }
+    
+    public byte[] encryptWithMyPrivate(byte[] s) throws Exception
+    {
+        Security.addProvider(new BouncyCastleProvider());
+        KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
+        PrivateKey priv = Loadkey.generatePrivateKey(factory, KEYSTORE_ADDRESS + MY_PRIVATE_KEY_NAME);
+        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+        cipher.init(Cipher.ENCRYPT_MODE, priv);
+        byte[] ciphetText = cipher.doFinal(s);
+        return ciphetText;
+    }
+    
+    public byte[] decryptWithMyPrivate(byte[] s) throws Exception
+    {
+        Security.addProvider(new BouncyCastleProvider());
+        KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
+        PrivateKey priv = Loadkey.generatePrivateKey(factory,
+                KEYSTORE_ADDRESS + MY_PRIVATE_KEY_NAME);
+        Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
+        cipher.init(Cipher.DECRYPT_MODE, priv);
+        byte[] ciphetText = cipher.doFinal(s);
+        return ciphetText;
     }
 }
