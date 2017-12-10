@@ -43,7 +43,7 @@ public class EncryptionAssistant
     private static final String MY_PUBLIC_KEY_NAME = "MyPublicKey";
     private static final String SERVER_PUBLIC_KEY_NAME = "ServerPublicKey";
     private static final String SERVER_DIFFIE_HELLMAN_KEY="ServerDiffieHellman";
-    private static final String KEYSTORE_ADDRESS = "C:\\Users\\th\\Desktop\\keytrial\\";
+    private static final String KEYSTORE_ADDRESS = "/home/ewais/Downloads/Security/keytrial/";
 
     public EncryptionAssistant()
     {
@@ -60,6 +60,7 @@ public class EncryptionAssistant
     }
     public String decryptWithTimeStampKey(byte[] s) throws Exception
     {
+        
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
         PublicKey key = Loadkey.generatePublicKey(factory, KEYSTORE_ADDRESS + TIME_STAMP_KEY_NAME + ".pub");
         Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");

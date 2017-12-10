@@ -18,7 +18,7 @@ import java.net.URLEncoder;
 public abstract class Request
 {
     private int paramters = 0;
-    protected String url = "http://localhost:8080/";
+    protected String url = "http://10.40.36.83:8080/";
 
     public Request(String url)
     {

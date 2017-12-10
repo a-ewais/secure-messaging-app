@@ -40,10 +40,10 @@ public class RSAPublicKeyCreator
         {
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
         FileOutputStream fileOuputStream;
-        fileOuputStream = new FileOutputStream("C:\\Users\\th\\Desktop\\keytrial\\"+ fileName+".pub");
+        fileOuputStream = new FileOutputStream("/home/ewais/Downloads/Security/keytrial/"+ fileName+".pub");
         fileOuputStream.write(keyBytes);
         fileOuputStream.close();
-        key = Loadkey.generatePublicKey(factory, "C:\\Users\\th\\Desktop\\keytrial\\"+ fileName+".pub");
+        key = Loadkey.generatePublicKey(factory, "/home/ewais/Downloads/Security/keytrial/"+ fileName+".pub");
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException ex)
         {
             Logger.getLogger(RSAPublicKeyCreator.class.getName()).log(Level.SEVERE, null, ex);

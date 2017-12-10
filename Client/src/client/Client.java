@@ -26,7 +26,7 @@ public class Client
     {
         getTimeStampKey();
         GetTimeStampResponce r = getTimeStamp();
-        stampMessage("heylidfjwoefhw;ourgwierhlqefh;ewuhw'oeifhw;efuh");
+//        stampMessage("heylidfjwoefhw;ourgwierhlqefh;ewuhw'oeifhw;efuh");
         //makeInitialMessage(r);
 //        DatabaseHandler d = new DatabaseHandler();
     }
@@ -69,7 +69,7 @@ public class Client
         rawMessage.put("keyPartDH", df.getPublicKey());
         rawMessage.put("pubKey", ea.getEncodedPublicKey());
         JSONObject json = new JSONObject();
-        json.put("hashedEncryptedMessage", Arrays.toString(
+        json.put("hashedEncryptedMessage", new String(
                 ea.encryptWithServerPublic(ea.hash(rawMessage.toJSONString()))));
         json.put("rawMessage", rawMessage.toJSONString());
         ServerHandShakeRequest g = new ServerHandShakeRequest(

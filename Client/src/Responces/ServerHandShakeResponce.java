@@ -52,18 +52,18 @@ public class ServerHandShakeResponce extends Responce {
     private void processJson() throws ParseException, Exception
     {
         JSONParser parser = new JSONParser(); 
-        JSONObject json = (JSONObject) parser.parse(Arrays.toString(Base64.getDecoder()
+        JSONObject json = (JSONObject) parser.parse(new String(Base64.getDecoder()
                 .decode(responce)));
         EncryptionAssistant ea = new EncryptionAssistant();
         
         this.hashedEncryptedMessage = (String) json.get("hashedEncryptedMessage");
-        this.hash = Arrays.toString(
+        this.hash = new String(
                 ea.decryptWithMyPrivate(this.hashedEncryptedMessage.getBytes()));
         this.rawMessage = (String) json.get("rawMessge");
         json = (JSONObject) parser.parse(this.rawMessage);
         this.fingerPrintHashedEncrypted = (String) 
                 json.get("fingerPrintHashedEncrypted");
-        this.fingerPrintHashed = Arrays.toString(ea.decryptWithServerPublic
+        this.fingerPrintHashed = new String(ea.decryptWithServerPublic
                 (this.fingerPrintHashedEncrypted.getBytes()));
         this.fingerPrint = (String) json.get("fingerPrint");
         //TODO: add the DHkey

@@ -6,6 +6,7 @@
 package Responces;
 
 import org.json.simple.JSONObject;
+import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import Decryptor.EncryptionAssistant;
@@ -48,13 +49,14 @@ public class GetTimeStampResponce extends Responce
 
     private void processJson() throws ParseException, Exception
     {
-        JSONParser parser = new JSONParser(); 
-        JSONObject json = (JSONObject) parser.parse(
-                Arrays.toString(Base64.getDecoder()
-                .decode(responce)));
-        encryptedTimeStamp = (String)json.get("time");
+        JSONParser parser = new JSONParser();
+        String decodedResponce = new String(Base64.getDecoder().decode(responce));
+           
+        JSONObject json = (JSONObject) parser.parse(decodedResponce);
+    
+        encryptedTimeStamp = new String(Base64.getDecoder().decode((String)json.get("time")));
         timeStamp = new EncryptionAssistant().
-                decryptWithTimeStampKey(encryptedTimeStamp.getBytes());
+                decryptWithTimeStampKey(Base64.getDecoder().decode((String)json.get("time")));
         hash = (String) json.get("hash");
     }
     
