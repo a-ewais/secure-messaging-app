@@ -11,6 +11,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -45,11 +46,10 @@ public class gettime extends HttpServlet
         JSONObject json = new JSONObject();
         PrintWriter out = response.getWriter();
         Encryptor en = new Encryptor();
-            String time = ""+ System.currentTimeMillis() / 1000L;
-            json.put("time", en.encryptWithPrivate(time));
-            json.put("hash", en.hash(time));
-            out.write(Base64.getEncoder().
-                    encodeToString(json.toJSONString().getBytes()));       
+        String time = ""+ System.currentTimeMillis() / 1000L;
+        json.put("time", Base64.getEncoder().encodeToString(en.encryptWithPrivate(time)));
+        json.put("hash", en.hash(time));
+        out.write(Base64.getEncoder().encodeToString(json.toJSONString().getBytes()));
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

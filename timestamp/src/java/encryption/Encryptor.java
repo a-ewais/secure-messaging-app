@@ -38,7 +38,8 @@ public class Encryptor
     {
         Security.addProvider(new BouncyCastleProvider());
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
-        PrivateKey priv = Loadkey.generatePrivateKey(factory, "C:\\Users\\th\\Documents\\Code\\School\\timestamp\\web\\id_rsa");
+        //C:\\Users\\th\\Documents\\Code\\School\\timestamp\\web
+        PrivateKey priv = Loadkey.generatePrivateKey(factory, "D:\\Moe\\Studies\\Workspace\\Github\\YASMS\\secure-messaging-app\\timestamp\\web\\id_rsa");
         Cipher cipher = Cipher.getInstance("RSA/ECB/OAEPWithSHA1AndMGF1Padding");
         cipher.init(Cipher.ENCRYPT_MODE, priv);
         byte[] ciphetText = cipher.doFinal(s);

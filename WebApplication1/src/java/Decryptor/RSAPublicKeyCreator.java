@@ -39,10 +39,12 @@ public class RSAPublicKeyCreator
         try
         {
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");FileOutputStream fileOuputStream;
-        fileOuputStream = new FileOutputStream("C:\\Users\\th\\Desktop\\keytrial\\"+ fileName+".pub");
+        //C:\\Users\\th\\Desktop\\keytrial
+        fileOuputStream = new FileOutputStream("D:\\Moe\\Studies\\Workspace\\Github\\YASMS\\secure-messaging-app\\keytrial\\"+ fileName+".pub");
         fileOuputStream.write(keyBytes);
         fileOuputStream.close();
-        key = Loadkey.generatePublicKey(factory, "C:\\Users\\th\\Desktop\\keytrial\\"+ fileName+".pub");
+        //C:\\Users\\th\\Desktop\\keytrial
+        key = Loadkey.generatePublicKey(factory, "D:\\Moe\\Studies\\Workspace\\Github\\YASMS\\secure-messaging-app\\keytrial\\"+ fileName+".pub");
         } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException ex)
         {
             Logger.getLogger(RSAPublicKeyCreator.class.getName()).log(Level.SEVERE, null, ex);
