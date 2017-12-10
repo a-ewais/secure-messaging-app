@@ -8,6 +8,7 @@ package Responces;
 import Decryptor.EncryptionAssistant;
 import java.security.NoSuchAlgorithmException;
 import java.security.PublicKey;
+import java.util.Arrays;
 import java.util.Base64;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,44 +19,55 @@ import org.json.simple.parser.ParseException;
  * @author ewais
  */
 public class ServerHandShakeResponce extends Responce {
-    private String fingerprint;
-    private PublicKey keyPartDH;
+    private String hashedEncryptedMessage;
     private String hash;
+    private String rawMessage;
+    private String fingerPrintHashedEncrypted;
+    private String fingerPrintHashed;
+    private String fingerPrint;
+    private PublicKey keyPartDH;
+    private String validFor;
 
-    public String getEncryptedTimeStamp()
-    {
-        return encryptedTimeStamp;
-    }
-    
     public ServerHandShakeResponce(String responce) throws ParseException, Exception
     {
         super(responce);
         processJson();
     }
-
-    public String getTimeStamp()
-    {
-        return timeStamp;
+    
+    public PublicKey getKeyPartDH(){
+        return this.keyPartDH;
     }
-
-    public String getHash()
-    {
-        return hash;
+    
+    public String getValidFor(){
+        return this.validFor;
     }
-   
-
+    
     public boolean checkValidity() throws NoSuchAlgorithmException
     {
-        return new EncryptionAssistant().checkhash(timeStamp, hash);
+        EncryptionAssistant ea = new EncryptionAssistant();
+        return ea.checkhash(rawMessage, hash)&&
+                ea.checkhash(this.fingerPrint, this.fingerPrintHashed);
     }
 
     private void processJson() throws ParseException, Exception
     {
         JSONParser parser = new JSONParser(); 
-        JSONObject json = (JSONObject) parser.parse(responce);
-        timeStamp = new EncryptionAssistant().decryptWithTimeStampKey(Base64.getDecoder().decode((String) json.get("time")));
-        encryptedTimeStamp = new String(Base64.getDecoder().decode((String) json.get("time")));
-        hash = new String(Base64.getDecoder().decode((String)json.get("hash")));
+        JSONObject json = (JSONObject) parser.parse(Arrays.toString(Base64.getDecoder()
+                .decode(responce)));
+        EncryptionAssistant ea = new EncryptionAssistant();
+        
+        this.hashedEncryptedMessage = (String) json.get("hashedEncryptedMessage");
+        this.hash = Arrays.toString(
+                ea.decryptWithMyPrivate(this.hashedEncryptedMessage.getBytes()));
+        this.rawMessage = (String) json.get("rawMessge");
+        json = (JSONObject) parser.parse(this.rawMessage);
+        this.fingerPrintHashedEncrypted = (String) 
+                json.get("fingerPrintHashedEncrypted");
+        this.fingerPrintHashed = Arrays.toString(ea.decryptWithServerPublic
+                (this.fingerPrintHashedEncrypted.getBytes()));
+        this.fingerPrint = (String) json.get("fingerPrint");
+        //TODO: add the DHkey
+        this.validFor = (String) json.get("validFor");
     }
     
 }

@@ -54,7 +54,10 @@ public class EncryptionAssistant
     {
         RSAPublicKeyCreator key = new RSAPublicKeyCreator(keyBytes, TIME_STAMP_KEY_NAME);
     }
-
+    public void saveSymmetricServerKey(byte[] keyBytes) throws IOException
+    {
+        //TODO: save the DH with server as a local file
+    }
     public String decryptWithTimeStampKey(byte[] s) throws Exception
     {
         KeyFactory factory = KeyFactory.getInstance("RSA", "BC");

@@ -10,10 +10,17 @@ import Responces.ServerHandShakeResponce;
  * @author ewais
  */
 public class ServerHandShakeRequest extends Request {
+    private static final String DATA_LABEL = "handShake";
+    String data;
     
-    public ServerHandShakeRequest()
+   
+        
+    public ServerHandShakeRequest(String _data)
     {
+        
         super("WebApplication1/handshake");
+        this.data = _data;
+        addParameter(DATA_LABEL, data);
     }
     
     public ServerHandShakeResponce send() throws Exception

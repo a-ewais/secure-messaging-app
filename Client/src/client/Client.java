@@ -56,14 +56,14 @@ public class Client
         System.out.println(r.getMessage());
     }
 
-    private static String makeInitialMessage(GetTimeStampResponce r) throws Exception
+    private static void makeInitialMessage(GetTimeStampResponce _r) throws Exception
     {
         EncryptionAssistant ea = new EncryptionAssistant();
         JSONObject rawMessage = new JSONObject();
         DiffieHellmanPackage df = ea.generateDiffieHellman();
-        String fingerprint = makeFingerPrint(r.getEncryptedTimeStamp());
+        String fingerprint = makeFingerPrint(_r.getEncryptedTimeStamp());
         String encyptedHashedFingerPrint = makeFingerPrintEncryptedHashed(
-        r.getEncryptedTimeStamp());
+        _r.getEncryptedTimeStamp());
         rawMessage.put("fingerPrintHashedEncrypted", encyptedHashedFingerPrint);
         rawMessage.put("fingerPrint", fingerprint);
         rawMessage.put("keyPartDH", df.getPublicKey());
@@ -72,8 +72,13 @@ public class Client
         json.put("hashedEncryptedMessage", Arrays.toString(
                 ea.encryptWithServerPublic(ea.hash(rawMessage.toJSONString()))));
         json.put("rawMessage", rawMessage.toJSONString());
-        
-        return Base64.getEncoder().encodeToString(json.toJSONString().getBytes());
+        ServerHandShakeRequest g = new ServerHandShakeRequest(
+                Base64.getEncoder().encodeToString(json.toJSONString().getBytes()));
+        ServerHandShakeResponce r = g.send();
+        if(!r.checkValidity())
+            throw new Exception("The handShake message has been tampered with");
+        df.setReceivedPublicKey(r.getKeyPartDH());
+        ea.saveSymmetricServerKey(ea.createDiffieHellmanKey(df).getBytes());
     }
     private static String makeFingerPrint(
             String encryptedTimeStamp) 
