@@ -58,6 +58,10 @@ public class EncryptionAssistant
     {
         //TODO: save the DH with server as a local file
     }
+    public byte[] encrypWithServerSymmetric(String s)throws Exception{
+        //TODO: implement.
+        return new byte[0];
+    }
     public String decryptWithTimeStampKey(byte[] s) throws Exception
     {
         
@@ -164,10 +168,12 @@ public class EncryptionAssistant
         return ciphetText;
     }
 
-    public String getEncodedPublicKey() throws IOException
+    public byte[] getEncodedPublicKey() throws IOException, Exception
     {
-        byte[] encoded = Files.readAllBytes(Paths.get(KEYSTORE_ADDRESS + MY_PUBLIC_KEY_NAME + ".pub"));
-        return new String(encoded);
+//        byte[] encoded = Files.readAllBytes(Paths.get(KEYSTORE_ADDRESS + MY_PUBLIC_KEY_NAME + ".pub"));
+        KeyFactory factory = KeyFactory.getInstance("RSA", "BC");
+        PublicKey pub = Loadkey.generatePublicKey(factory, KEYSTORE_ADDRESS + MY_PUBLIC_KEY_NAME+ ".pub");
+        return pub.getEncoded();
     }
     
     public byte[] encryptWithServerPublic(String s) throws Exception

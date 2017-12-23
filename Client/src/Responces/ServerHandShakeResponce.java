@@ -66,7 +66,7 @@ public class ServerHandShakeResponce extends Responce {
         this.fingerPrintHashed = new String(ea.decryptWithServerPublic
                 (this.fingerPrintHashedEncrypted.getBytes()));
         this.fingerPrint = (String) json.get("fingerPrint");
-        //TODO: add the DHkey
+        //TODO: add the DHkey        
         this.validFor = (String) json.get("validFor");
     }
     

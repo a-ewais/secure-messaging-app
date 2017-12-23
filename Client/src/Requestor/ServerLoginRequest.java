@@ -4,24 +4,26 @@
  * and open the template in the editor.
  */
 package Requestor;
+
 import Responces.ServerHandShakeResponce;
+import Responces.ServerLoginResponce;
+
 /**
  *
  * @author ewais
  */
-public class ServerHandShakeRequest extends Request {
-    private static final String DATA_LABEL = "handShake";
+public class ServerLoginRequest extends Request {
+    private static final String DATA_LABEL = "login";
     String data;
     
-    public ServerHandShakeRequest(String _data)
-    {        
-        super("WebApplication1/handshake");
+    public ServerLoginRequest(String _data){
+        super("WebApplication1/login");
         this.data = _data;
         addParameter(DATA_LABEL, data);
     }
     
-    public ServerHandShakeResponce send() throws Exception
+    public ServerLoginResponce send() throws Exception
     {
-        return new ServerHandShakeResponce(getHTML(url));
+        return new ServerLoginResponce(getHTML(url));
     }
 }
